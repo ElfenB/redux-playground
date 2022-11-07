@@ -1,6 +1,9 @@
 import './style.css';
 
+import { bugAdded, bugRemoved, bugResolved } from './actions';
+
 import { pipe } from 'lodash/fp';
+import { store } from './store';
 
 const text = '    JavaScript    ';
 
@@ -22,3 +25,19 @@ personB.address.street = 'Neuer Weg';
 
 console.log('personA', JSON.stringify(personA.address.street));
 console.log('personB', JSON.stringify(personB.address.street));
+
+// --------------------------------------
+
+console.log('---REDUX---');
+
+const unsubsribe = store.subscribe(() => console.log('State changed', JSON.stringify(store.getState())));
+
+store.dispatch(bugAdded('Bug 1'));
+
+store.dispatch(bugResolved(1));
+
+unsubsribe();
+
+store.dispatch(bugRemoved(1));
+
+console.log(store.getState());
